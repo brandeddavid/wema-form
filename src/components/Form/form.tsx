@@ -10,15 +10,18 @@ import {
 	FormLabel,
 } from "@mui/material";
 import SubmitButton from "../SubmitButton/submitButton";
+import submitForm from "../../api/submitForm";
 
 const attendanceType = [
 	{
-		label: "Playing golf 2500",
+		label: "Playing golf",
 		value: "playing-golf",
+		amount: 2500,
 	},
 	{
-		label: "Dinner Only 2000",
+		label: "Dinner Only",
 		value: "dinner-only",
+		amount: 2000,
 	},
 ];
 
@@ -36,10 +39,11 @@ const Form = () => {
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [phoneNumber, setPhoneNumber] = useState("");
+	const [amount, setAmount] = useState(0);
 
 	return (
 		<Paper
-			elevation={2}
+			elevation={24}
 			className="bg-white w-full md:w-[500px] p-[40px] space-y-[40px]"
 		>
 			<Box
@@ -90,16 +94,18 @@ const Form = () => {
 				<FormControl>
 					<FormLabel>Attending</FormLabel>
 					<RadioGroup row>
-						{attendanceType.map(({ label, value }) => (
+						{attendanceType.map(({ label, value, amount }) => (
 							<FormControlLabel
 								value={attendance}
 								control={
 									<Radio
 										checked={attendance === value}
-										onChange={() => setAttendance(value)}
+										onChange={() => {
+											setAttendance(value);
+										}}
 									/>
 								}
-								label={label}
+								label={`${label} ${amount}`}
 								key={value}
 							/>
 						))}
@@ -127,7 +133,19 @@ const Form = () => {
 				</FormControl>
 			</Box>
 			<Box>
-				<SubmitButton>Pay</SubmitButton>
+				<SubmitButton
+					onClick={async () => {
+						await submitForm({
+							attendance,
+							amount,
+							firstName,
+							lastName,
+							phoneNumber,
+						});
+					}}
+				>
+					Pay
+				</SubmitButton>
 			</Box>
 		</Paper>
 	);
