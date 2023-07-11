@@ -3,29 +3,36 @@ import axios from "axios";
 const submitForm = async ({
 	firstName,
 	lastName,
-	amount,
 	phoneNumber,
 	attendance,
 }: any) => {
 	const headersList = {
 		Accept: "*/*",
 		"Content-Type": "application/json",
-		Authorization: "Bearer 2|xCkinFbNY92kH2dwZ2fHW6b0W2fVFfxouIatC5xG",
+		Authorization: "Bearer 6|wf3BKDxbhwyfJJkb7ffdcm36MEKuSwb7YuKAl0D4",
+		"Access-Control-Allow-Origin": "*",
 	};
 	const requestBody = JSON.stringify({
-		reference_id: `${firstName}-${lastName}-${amount}`,
-		currencyy: "KES",
-		express_mpaesa: true,
+		reference_id: phoneNumber,
+		currency: "KES",
+		express_mpesa: true,
 		first_name: firstName,
 		last_name: lastName,
 		amount: attendance === "playing-golf" ? 2500 : 2000,
 		callback_url: "https://wema.redcross.or.ke/nairobi-golf-charity",
 		redirect_url: "https://wema.redcross.or.ke/nairobi-golf-charity",
 		msisdn: phoneNumber,
+		payload: [
+			{
+				title: `${attendance === "playing-golf" ? "Golfer" : "Non Golfer"}`,
+				quantity: 1,
+				total: attendance === "playing-golf" ? 2500 : 2000,
+			},
+		],
 	});
 
 	let reqOptions = {
-		url: "http://sandbox.finsprint.io/api/v1/request-checkout",
+		url: "https://sandbox.finsprint.io/api/v1/request-checkout",
 		method: "POST",
 		headers: headersList,
 		data: requestBody,

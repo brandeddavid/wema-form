@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import {
 	Box,
@@ -58,12 +59,14 @@ const Form = () => {
 					onChange={(event: any) => setFirstName(event.target.value)}
 					label="First Name"
 					variant="standard"
+					sx={{ flex: 1 }}
 				/>
 				<TextField
 					placeholder="Last Name"
 					onChange={(event: any) => setLastName(event.target.value)}
 					label="Last Name"
 					variant="standard"
+					sx={{ flex: 1 }}
 				/>
 			</Box>
 			<Box>
@@ -134,7 +137,9 @@ const Form = () => {
 			</Box>
 			<Box>
 				<SubmitButton
-					onClick={async () => {
+					onClick={async (event) => {
+						event.preventDefault();
+
 						await submitForm({
 							attendance,
 							amount,
