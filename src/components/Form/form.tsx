@@ -42,13 +42,14 @@ const Form = () => {
 	const submitForm = useFormStore((state: FormState) => state.submitForm);
 
 	return (
-		<Paper elevation={24} className="bg-white w-full md:w-[500px] p-[40px]">
-			<Box>
+		<Paper
+			elevation={24}
+			className="bg-white h-screen md:h-auto w-full md:w-[500px] p-[40px] flex flex-col justify-evenly"
+		>
+			<Box sx={{ marginBottom: 10 }}>
 				<Typography variant="h5">
 					Register for the Annual Charity Golf Tournament
 				</Typography>
-			</Box>
-			<Box sx={{ marginBottom: 10 }}>
 				<Typography variant="caption">
 					Register to support Kenya Red Cross in the Annual Charity Golf
 					Tournament at Muthaiga Golf Club{" "}
@@ -124,37 +125,37 @@ const Form = () => {
 						</RadioGroup>
 					</FormControl>
 				</Box>
-				<Box>
-					<SubmitButton
-						startIcon={
-							isSubmitting ? (
-								<CircularProgress
-									sx={{
-										color: "#ffffff",
-									}}
-									size={20}
-								/>
-							) : null
-						}
-						onClick={submitForm}
-					>
-						Pay via MPESA
-					</SubmitButton>
-					<Box
-						sx={{
-							display: "flex",
-							justifyContent: "center",
-							marginTop: 5,
-						}}
-					>
-						<Typography variant="caption" color="primary">
-							<Link href="https://wema.redcross.or.ke/nairobi-golf-charity/">
-								Go back
-							</Link>
-						</Typography>
-					</Box>
-				</Box>
 			</div>
+			<Box sx={{ mt: 20 }}>
+				<SubmitButton
+					startIcon={
+						isSubmitting ? (
+							<CircularProgress
+								sx={{
+									color: "#ffffff",
+								}}
+								size={20}
+							/>
+						) : null
+					}
+					onClick={submitForm}
+				>
+					Pay via MPESA
+				</SubmitButton>
+				<Box
+					sx={{
+						display: "flex",
+						justifyContent: "center",
+						marginTop: 5,
+					}}
+				>
+					<Typography variant="caption" color="primary">
+						<Link href="https://wema.redcross.or.ke/nairobi-golf-charity/">
+							Go back
+						</Link>
+					</Typography>
+				</Box>
+			</Box>
 		</Paper>
 	);
 };
