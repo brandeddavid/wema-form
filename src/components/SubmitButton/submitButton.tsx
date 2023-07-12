@@ -1,8 +1,8 @@
 import React from "react";
-import { ButtonBase } from "@mui/material";
+import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-const SubmitButton = styled(ButtonBase)(({ theme }) => ({
+const SubmitButton = styled(Button)(({ theme }) => ({
 	backgroundColor: "#ed1c24 !important",
 	paddingTop: "10px",
 	paddingBottom: "10px",
@@ -12,10 +12,6 @@ const SubmitButton = styled(ButtonBase)(({ theme }) => ({
 	color: "#ffffff",
 	background: "primary.main",
 	border: "1px solid #ed1c24",
-	"&:hover": {
-		backgroundColor: "#ffffff !important",
-		color: "#ed1c24 !important",
-	},
 	width: "100%",
 }));
 

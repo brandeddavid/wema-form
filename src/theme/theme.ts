@@ -11,6 +11,9 @@ const theme = createTheme({
 		primary: {
 			main: "#ed1c24",
 		},
+		secondary: {
+			main: "#1c2539",
+		},
 	},
 	typography: {
 		fontFamily: inter.style.fontFamily,

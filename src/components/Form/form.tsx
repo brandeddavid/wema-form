@@ -10,9 +10,9 @@ import {
 	RadioGroup,
 	FormLabel,
 	Typography,
+	CircularProgress,
 } from "@mui/material";
 import SubmitButton from "../SubmitButton/submitButton";
-import submitForm from "../../api/submitForm";
 import useFormStore from "../../store/useFormStore";
 import type { FormState } from "../../store/useFormStore";
 
@@ -27,6 +27,7 @@ const Form = () => {
 	const lastName = useFormStore((state: FormState) => state.lastName);
 	const email = useFormStore((state: FormState) => state.email);
 	const phoneNumber = useFormStore((state: FormState) => state.phoneNumber);
+	const isSubmitting = useFormStore((state: FormState) => state.isSubmitting);
 
 	const setSelectedAttendance = useFormStore(
 		(state: FormState) => state.setSelectedAttendance
@@ -123,7 +124,21 @@ const Form = () => {
 					</FormControl>
 				</Box>
 				<Box>
-					<SubmitButton onClick={submitForm}>Pay via MPESA</SubmitButton>
+					<SubmitButton
+						startIcon={
+							isSubmitting ? (
+								<CircularProgress
+									sx={{
+										color: "#ffffff",
+									}}
+									size={20}
+								/>
+							) : null
+						}
+						onClick={submitForm}
+					>
+						Pay via MPESA
+					</SubmitButton>
 				</Box>
 			</div>
 		</Paper>
