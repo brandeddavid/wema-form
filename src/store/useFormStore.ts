@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
+import submitForm from "../api/submitForm";
 
 export type FormState = any;
 
@@ -24,26 +25,32 @@ const initialState = {
 	firstName: "",
 	lastName: "",
 	email: "",
-	phoneNumber: null,
+	phoneNumber: "",
 	isSubmitting: false,
 };
 
-const useFormStore = create()(
+const useFormStore = create<FormState>()(
 	devtools(
 		persist(
-			(set) => ({
+			(set, get) => ({
 				...initialState,
 				setSelectedAttendance: (selectedAttendance: any) =>
-					set((state: FormState) => ({ selectedAttendance })),
-				setFirstName: (firstName: string) =>
-					set((state: FormState) => ({ firstName })),
-				setLastName: (lastName: string) =>
-					set((state: FormState) => ({ lastName })),
-				setEmail: (email: string) => set((state: FormState) => ({ email })),
-				setPhoneNumber: (phoneNumber: number) =>
-					set((state: FormState) => ({ phoneNumber })),
-				subitForm: async () => {
-					set((state: FormState) => ({ isSubmitting: true }));
+					set(() => ({ selectedAttendance })),
+				setFirstName: (firstName: string) => set(() => ({ firstName })),
+				setLastName: (lastName: string) => set(() => ({ lastName })),
+				setEmail: (email: string) => set(() => ({ email })),
+				setPhoneNumber: (phoneNumber: number) => set(() => ({ phoneNumber })),
+				submitForm: async () => {
+					set(() => ({ isSubmitting: true }));
+
+					await submitForm({
+						firstName: get().firstName,
+						lastName: get().lastName,
+						phoneNumber: get().phoneNumber,
+						attendance: get().selectedAttendance.value,
+					});
+
+					set(() => ({ isSubmitting: false }));
 				},
 			}),
 			{ name: "form-store" }

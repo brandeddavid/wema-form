@@ -37,6 +37,7 @@ const Form = () => {
 	const setPhoneNumber = useFormStore(
 		(state: FormState) => state.setPhoneNumber
 	);
+	const submitForm = useFormStore((state: FormState) => state.submitForm);
 
 	return (
 		<Paper elevation={24} className="bg-white w-full md:w-[500px] p-[40px]">
@@ -61,14 +62,14 @@ const Form = () => {
 				>
 					<TextField
 						onChange={(event: any) => setFirstName(event.target.value)}
-						label="First Name"
+						placeholder="First Name"
 						variant="standard"
 						sx={{ flex: 1, marginRight: 10 }}
 						value={firstName}
 					/>
 					<TextField
 						onChange={(event: any) => setLastName(event.target.value)}
-						label="Last Name"
+						placeholder="Last Name"
 						variant="standard"
 						sx={{ flex: 1, marginLeft: 10 }}
 						value={lastName}
@@ -80,7 +81,7 @@ const Form = () => {
 							width: "100%",
 						}}
 						onChange={(event: any) => setEmail(event.target.value)}
-						label="Email"
+						placeholder="Email"
 						type="email"
 						variant="standard"
 						value={email}
@@ -93,7 +94,7 @@ const Form = () => {
 						}}
 						required
 						onChange={(event: any) => setPhoneNumber(event.target.value)}
-						label="Phone number"
+						placeholder="Phone number"
 						type="number"
 						variant="standard"
 						value={phoneNumber}
@@ -122,20 +123,7 @@ const Form = () => {
 					</FormControl>
 				</Box>
 				<Box>
-					<SubmitButton
-						onClick={async (event) => {
-							event.preventDefault();
-
-							await submitForm({
-								attendance: selectedAttendance.value,
-								firstName,
-								lastName,
-								phoneNumber,
-							});
-						}}
-					>
-						Pay via MPESA
-					</SubmitButton>
+					<SubmitButton onClick={submitForm}>Pay via MPESA</SubmitButton>
 				</Box>
 			</div>
 		</Paper>
