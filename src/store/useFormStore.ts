@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { devtools, persist } from "zustand/middleware";
 
 export type FormState = any;
 
@@ -24,18 +25,30 @@ const initialState = {
 	lastName: "",
 	email: "",
 	phoneNumber: null,
+	isSubmitting: false,
 };
 
-const useFormStore = create((set) => ({
-	...initialState,
-	setSelectedAttendance: (selectedAttendance: any) =>
-		set((state: FormState) => ({ selectedAttendance })),
-	setFirstName: (firstName: string) =>
-		set((state: FormState) => ({ firstName })),
-	setLastName: (lastName: string) => set((state: FormState) => ({ lastName })),
-	setEmail: (email: string) => set((state: FormState) => ({ email })),
-	setPhoneNumber: (phoneNumber: number) =>
-		set((state: FormState) => ({ phoneNumber })),
-}));
+const useFormStore = create()(
+	devtools(
+		persist(
+			(set) => ({
+				...initialState,
+				setSelectedAttendance: (selectedAttendance: any) =>
+					set((state: FormState) => ({ selectedAttendance })),
+				setFirstName: (firstName: string) =>
+					set((state: FormState) => ({ firstName })),
+				setLastName: (lastName: string) =>
+					set((state: FormState) => ({ lastName })),
+				setEmail: (email: string) => set((state: FormState) => ({ email })),
+				setPhoneNumber: (phoneNumber: number) =>
+					set((state: FormState) => ({ phoneNumber })),
+				subitForm: async () => {
+					set((state: FormState) => ({ isSubmitting: true }));
+				},
+			}),
+			{ name: "form-store" }
+		)
+	)
+);
 
 export default useFormStore;

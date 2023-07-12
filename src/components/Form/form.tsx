@@ -60,7 +60,6 @@ const Form = () => {
 					}}
 				>
 					<TextField
-						placeholder="First Name"
 						onChange={(event: any) => setFirstName(event.target.value)}
 						label="First Name"
 						variant="standard"
@@ -68,7 +67,6 @@ const Form = () => {
 						value={firstName}
 					/>
 					<TextField
-						placeholder="Last Name"
 						onChange={(event: any) => setLastName(event.target.value)}
 						label="Last Name"
 						variant="standard"
@@ -81,7 +79,6 @@ const Form = () => {
 						sx={{
 							width: "100%",
 						}}
-						placeholder="Email"
 						onChange={(event: any) => setEmail(event.target.value)}
 						label="Email"
 						type="email"
