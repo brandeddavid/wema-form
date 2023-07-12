@@ -13,7 +13,9 @@ export default function RootLayout({
 		<html lang="en">
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<body>{children}</body>
+				<body className="flex flex-col items-center justify-between min-h-screen md:p-24">
+					{children}
+				</body>
 			</ThemeProvider>
 		</html>
 	);

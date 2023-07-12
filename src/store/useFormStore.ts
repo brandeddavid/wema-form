@@ -27,35 +27,31 @@ const initialState = {
 	email: "",
 	phoneNumber: "",
 	isSubmitting: false,
+	paymentStatus: "",
 };
 
 const useFormStore = create<FormState>()(
-	devtools(
-		persist(
-			(set, get) => ({
-				...initialState,
-				setSelectedAttendance: (selectedAttendance: any) =>
-					set(() => ({ selectedAttendance })),
-				setFirstName: (firstName: string) => set(() => ({ firstName })),
-				setLastName: (lastName: string) => set(() => ({ lastName })),
-				setEmail: (email: string) => set(() => ({ email })),
-				setPhoneNumber: (phoneNumber: number) => set(() => ({ phoneNumber })),
-				submitForm: async () => {
-					set(() => ({ isSubmitting: true }));
+	devtools((set, get) => ({
+		...initialState,
+		setSelectedAttendance: (selectedAttendance: any) =>
+			set(() => ({ selectedAttendance })),
+		setFirstName: (firstName: string) => set(() => ({ firstName })),
+		setLastName: (lastName: string) => set(() => ({ lastName })),
+		setEmail: (email: string) => set(() => ({ email })),
+		setPhoneNumber: (phoneNumber: number) => set(() => ({ phoneNumber })),
+		submitForm: async () => {
+			set(() => ({ isSubmitting: true }));
 
-					await submitForm({
-						firstName: get().firstName,
-						lastName: get().lastName,
-						phoneNumber: get().phoneNumber,
-						attendance: get().selectedAttendance.value,
-					});
+			await submitForm({
+				firstName: get().firstName,
+				lastName: get().lastName,
+				phoneNumber: get().phoneNumber,
+				attendance: get().selectedAttendance.value,
+			});
 
-					set(() => ({ isSubmitting: false }));
-				},
-			}),
-			{ name: "form-store" }
-		)
-	)
+			set(() => ({ isSubmitting: false, paymentStatus: "processing" }));
+		},
+	}))
 );
 
 export default useFormStore;

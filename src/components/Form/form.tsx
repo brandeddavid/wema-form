@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
 	Box,
@@ -18,7 +19,8 @@ import useFormStore from "../../store/useFormStore";
 import type { FormState } from "../../store/useFormStore";
 
 const Form = () => {
-	const attendanceType = useFormStore(
+	const router = useRouter();
+	const attendanceType: any = useFormStore(
 		(state: FormState) => state.attendanceType
 	);
 	const selectedAttendance = useFormStore(
@@ -29,6 +31,7 @@ const Form = () => {
 	const email = useFormStore((state: FormState) => state.email);
 	const phoneNumber = useFormStore((state: FormState) => state.phoneNumber);
 	const isSubmitting = useFormStore((state: FormState) => state.isSubmitting);
+	const paymentStatus = useFormStore((state: FormState) => state.paymentStatus);
 
 	const setSelectedAttendance = useFormStore(
 		(state: FormState) => state.setSelectedAttendance
@@ -40,6 +43,10 @@ const Form = () => {
 		(state: FormState) => state.setPhoneNumber
 	);
 	const submitForm = useFormStore((state: FormState) => state.submitForm);
+
+	useEffect(() => {
+		if (paymentStatus === "processing") router.push("/status");
+	}, [paymentStatus, router]);
 
 	return (
 		<Paper
