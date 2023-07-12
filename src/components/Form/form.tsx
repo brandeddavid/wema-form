@@ -12,35 +12,30 @@ import {
 } from "@mui/material";
 import SubmitButton from "../SubmitButton/submitButton";
 import submitForm from "../../api/submitForm";
-
-const attendanceType = [
-	{
-		label: "Playing golf",
-		value: "playing-golf",
-		amount: 2500,
-	},
-	{
-		label: "Dinner Only",
-		value: "dinner-only",
-		amount: 2000,
-	},
-];
-
-const paymentOptions = [
-	{
-		label: "MPESA PAYBILL",
-		value: "mpesa",
-	},
-];
+import useFormStore from "../../store/useFormStore";
+import type { FormState } from "../../store/useFormStore";
 
 const Form = () => {
-	const [attendance, setAttendance] = useState("playing-golf");
-	const [paymentOption, setPaymentOption] = useState("mpesa");
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
-	const [email, setEmail] = useState("");
-	const [phoneNumber, setPhoneNumber] = useState("");
-	const [amount, setAmount] = useState(0);
+	const attendanceType = useFormStore(
+		(state: FormState) => state.attendanceType
+	);
+	const selectedAttendance = useFormStore(
+		(state: FormState) => state.selectedAttendance
+	);
+	const firstName = useFormStore((state: FormState) => state.firstName);
+	const lastName = useFormStore((state: FormState) => state.lastName);
+	const email = useFormStore((state: FormState) => state.email);
+	const phoneNumber = useFormStore((state: FormState) => state.phoneNumber);
+
+	const setSelectedAttendance = useFormStore(
+		(state: FormState) => state.setSelectedAttendance
+	);
+	const setFirstName = useFormStore((state: FormState) => state.setFirstName);
+	const setLastName = useFormStore((state: FormState) => state.setLastName);
+	const setEmail = useFormStore((state: FormState) => state.setEmail);
+	const setPhoneNumber = useFormStore(
+		(state: FormState) => state.setPhoneNumber
+	);
 
 	return (
 		<Paper
@@ -59,14 +54,16 @@ const Form = () => {
 					onChange={(event: any) => setFirstName(event.target.value)}
 					label="First Name"
 					variant="standard"
-					sx={{ flex: 1 }}
+					sx={{ flex: 1, marginRight: 10 }}
+					value={firstName}
 				/>
 				<TextField
 					placeholder="Last Name"
 					onChange={(event: any) => setLastName(event.target.value)}
 					label="Last Name"
 					variant="standard"
-					sx={{ flex: 1 }}
+					sx={{ flex: 1, marginLeft: 10 }}
+					value={lastName}
 				/>
 			</Box>
 			<Box>
@@ -79,6 +76,7 @@ const Form = () => {
 					label="Email"
 					type="email"
 					variant="standard"
+					value={email}
 				/>
 			</Box>
 			<Box>
@@ -91,44 +89,25 @@ const Form = () => {
 					label="Phone number"
 					type="number"
 					variant="standard"
+					value={phoneNumber}
 				/>
 			</Box>
 			<Box>
 				<FormControl>
 					<FormLabel>Attending</FormLabel>
 					<RadioGroup row>
-						{attendanceType.map(({ label, value, amount }) => (
+						{attendanceType.map(({ label, value, amount }: any) => (
 							<FormControlLabel
-								value={attendance}
+								value={selectedAttendance.value}
 								control={
 									<Radio
-										checked={attendance === value}
+										checked={selectedAttendance.value === value}
 										onChange={() => {
-											setAttendance(value);
+											setSelectedAttendance({ label, value, amount });
 										}}
 									/>
 								}
 								label={`${label} ${amount}`}
-								key={value}
-							/>
-						))}
-					</RadioGroup>
-				</FormControl>
-			</Box>
-			<Box>
-				<FormControl>
-					<FormLabel>Mode of payment</FormLabel>
-					<RadioGroup row name="row-radio-buttons-group">
-						{paymentOptions.map(({ label, value }) => (
-							<FormControlLabel
-								value={attendance}
-								control={
-									<Radio
-										checked={paymentOption === value}
-										onChange={() => setPaymentOption(value)}
-									/>
-								}
-								label={label}
 								key={value}
 							/>
 						))}
@@ -141,15 +120,14 @@ const Form = () => {
 						event.preventDefault();
 
 						await submitForm({
-							attendance,
-							amount,
+							attendance: selectedAttendance.value,
 							firstName,
 							lastName,
 							phoneNumber,
 						});
 					}}
 				>
-					Pay
+					Pay vis MPESA
 				</SubmitButton>
 			</Box>
 		</Paper>
