@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
+import Link from "next/link";
 import {
 	Box,
 	TextField,
@@ -139,6 +140,19 @@ const Form = () => {
 					>
 						Pay via MPESA
 					</SubmitButton>
+					<Box
+						sx={{
+							display: "flex",
+							justifyContent: "center",
+							marginTop: 5,
+						}}
+					>
+						<Typography variant="caption" color="primary">
+							<Link href="https://wema.redcross.or.ke/nairobi-golf-charity/">
+								Go back
+							</Link>
+						</Typography>
+					</Box>
 				</Box>
 			</div>
 		</Paper>
