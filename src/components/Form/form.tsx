@@ -97,7 +97,7 @@ const Form = () => {
 						}}
 						required
 						onChange={(event: any) => setPhoneNumber(event.target.value)}
-						placeholder="Phone number"
+						placeholder="Phone Number"
 						type="number"
 						variant="standard"
 						value={phoneNumber}
@@ -105,7 +105,7 @@ const Form = () => {
 				</Box>
 				<Box>
 					<FormControl>
-						<FormLabel>Attending</FormLabel>
+						<FormLabel>Attendance Type</FormLabel>
 						<RadioGroup row>
 							{attendanceType.map(({ label, value, amount }: any) => (
 								<FormControlLabel
