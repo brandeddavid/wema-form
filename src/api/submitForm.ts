@@ -4,7 +4,8 @@ const submitForm = async ({
 	firstName,
 	lastName,
 	phoneNumber,
-	attendance,
+	attendanceType,
+	amount,
 }: any) => {
 	const headersList = {
 		Accept: "*/*",
@@ -18,15 +19,15 @@ const submitForm = async ({
 		express_mpesa: true,
 		first_name: firstName,
 		last_name: lastName,
-		amount: attendance === "playing-golf" ? 2500 : 2000,
+		amount,
 		callback_url: "https://wema.redcross.or.ke/nairobi-golf-charity",
 		redirect_url: "https://wema.redcross.or.ke/nairobi-golf-charity",
 		msisdn: phoneNumber,
 		payload: [
 			{
-				title: `${attendance === "playing-golf" ? "Golfer" : "Non Golfer"}`,
+				title: `${attendanceType === "playing-golf" ? "Golfer" : "Non Golfer"}`,
 				quantity: 1,
-				total: attendance === "playing-golf" ? 2500 : 2000,
+				total: amount,
 			},
 		],
 	});
@@ -42,26 +43,12 @@ const submitForm = async ({
 		const response = await axios.request(reqOptions);
 		const {
 			status,
-			data: {
-				url,
-				trace_id,
-				reference_id,
-				token,
-				merchantCode,
-				extraData,
-				callbackUrl,
-			},
+			data: { trace_id },
 		} = response;
 
 		if (status === 200) {
 			return {
-				url,
 				traceId: trace_id,
-				referenceId: reference_id,
-				token,
-				merchantCode,
-				extraData,
-				callbackUrl,
 			};
 		}
 	} catch (error) {

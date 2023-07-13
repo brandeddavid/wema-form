@@ -146,6 +146,7 @@ const Form = () => {
 						) : null
 					}
 					onClick={submitForm}
+					disabled={isSubmitting || !phoneNumber}
 				>
 					Pay via MPESA
 				</SubmitButton>

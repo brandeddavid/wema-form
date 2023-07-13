@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { devtools } from "zustand/middleware";
 import submitForm from "../api/submitForm";
+import verifyTransaction from "../api/verifyTransaction";
 
 export type FormState = any;
 
@@ -28,6 +29,9 @@ const initialState = {
 	phoneNumber: "",
 	isSubmitting: false,
 	paymentStatus: "",
+	traceId: "",
+	isVerifying: false,
+	verified: false,
 };
 
 const useFormStore = create<FormState>()(
@@ -40,16 +44,36 @@ const useFormStore = create<FormState>()(
 		setEmail: (email: string) => set(() => ({ email })),
 		setPhoneNumber: (phoneNumber: number) => set(() => ({ phoneNumber })),
 		submitForm: async () => {
-			set(() => ({ isSubmitting: true }));
+			set(() => ({ isSubmitting: true, verified: false }));
 
-			await submitForm({
+			const { traceId }: any = await submitForm({
 				firstName: get().firstName,
 				lastName: get().lastName,
 				phoneNumber: get().phoneNumber,
-				attendance: get().selectedAttendance.value,
+				attendanceType: get().selectedAttendance.value,
+				amount: get().selectedAttendance.amount,
 			});
 
-			set(() => ({ isSubmitting: false, paymentStatus: "processing" }));
+			set(() => ({
+				isSubmitting: false,
+				paymentStatus: "processing",
+				traceId,
+			}));
+		},
+		verifyTransaction: async () => {
+			set(() => ({ isVerifying: true }));
+
+			const { decodedStatus }: any = await verifyTransaction({
+				traceId: get().traceId,
+			});
+
+			set(() => ({
+				isVerifying: false,
+				paymentStatus: decodedStatus.includes("success")
+					? "successful"
+					: "failed",
+				verified: true,
+			}));
 		},
 	}))
 );
