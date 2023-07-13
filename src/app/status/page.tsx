@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Box, Paper, Typography, CircularProgress } from "@mui/material";
 import SubmitButton from "../../components/SubmitButton/submitButton";
@@ -8,6 +8,20 @@ import type { FormState } from "../../store/useFormStore";
 
 const StatusPage = () => {
 	const router = useRouter();
+	const [counter, setCounter] = useState(10);
+
+	const count = () => {
+		if (counter === 0) return;
+
+		if (counter > 0) {
+			setTimeout(() => setCounter((prev) => prev - 1), 1000);
+		}
+	};
+
+	useEffect(() => {
+		count();
+	});
+
 	const isVerifying = useFormStore((state: FormState) => state.isVerifying);
 	const verifyMpesaTransaction = useFormStore(
 		(state: FormState) => state.verifyTransaction
@@ -39,28 +53,35 @@ const StatusPage = () => {
 				</Typography>
 			</Box>
 			<Box sx={{ mt: 20 }}>
-				<SubmitButton
-					startIcon={
-						isVerifying ? (
-							<CircularProgress
-								sx={{
-									color: "#ffffff",
-								}}
-								size={20}
-							/>
-						) : null
-					}
-					onClick={
-						verified
-							? () =>
-									router.push(
-										"https://wema.redcross.or.ke/nairobi-golf-charity/"
-									)
-							: verifyMpesaTransaction
-					}
-				>
-					{verified ? "Go back" : "Verify"}
-				</SubmitButton>
+				{counter > 0 && (
+					<Box sx={{ display: "flex", justifyContent: "center" }}>
+						<Typography color="primary">{`Verify in ${counter} ...`}</Typography>
+					</Box>
+				)}
+				{counter < 1 && (
+					<SubmitButton
+						startIcon={
+							isVerifying ? (
+								<CircularProgress
+									sx={{
+										color: "#ffffff",
+									}}
+									size={20}
+								/>
+							) : null
+						}
+						onClick={
+							verified
+								? () =>
+										router.push(
+											"https://wema.redcross.or.ke/nairobi-golf-charity/"
+										)
+								: verifyMpesaTransaction
+						}
+					>
+						{verified ? "Go back" : "Verify"}
+					</SubmitButton>
+				)}
 			</Box>
 		</Paper>
 	);
