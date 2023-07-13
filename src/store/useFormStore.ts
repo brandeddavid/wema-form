@@ -10,7 +10,7 @@ const initialState = {
 		{
 			label: "Playing golf",
 			value: "playing-golf",
-			amount: 2500,
+			amount: 1,
 		},
 		{
 			label: "Dinner Only",
@@ -21,7 +21,7 @@ const initialState = {
 	selectedAttendance: {
 		label: "Playing golf",
 		value: "playing-golf",
-		amount: 2500,
+		amount: 1,
 	},
 	firstName: "",
 	lastName: "",
