@@ -72,10 +72,7 @@ const StatusPage = () => {
 						}
 						onClick={
 							verified
-								? () =>
-										router.push(
-											"https://wema.redcross.or.ke/nairobi-golf-charity/"
-										)
+								? () => router.push("https://www.redcross.or.ke/")
 								: verifyMpesaTransaction
 						}
 					>
