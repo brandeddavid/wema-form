@@ -33,7 +33,7 @@ const submitForm = async ({
 	});
 
 	let reqOptions = {
-		url: "https://sandbox.finsprint.io/api/v1/request-checkout",
+		url: "https://dev.finsprint.io/api/v1/request-checkout",
 		method: "POST",
 		headers: headersList,
 		data: requestBody,

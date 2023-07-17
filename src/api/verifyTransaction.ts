@@ -9,7 +9,7 @@ const verifyTransaction = async ({ traceId }: any) => {
 	};
 
 	let reqOptions = {
-		url: `https://sandbox.finsprint.io/api/v1/transactions?trace_id=${traceId}`,
+		url: `https://dev.finsprint.io/api/v1/transactions?trace_id=${traceId}`,
 		method: "GET",
 		headers: headersList,
 	};

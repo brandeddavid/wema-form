@@ -3,7 +3,7 @@
 const nextConfig = {
 	reactStrictMode: true,
 	images: {
-		domains: ["www.redcross.or.ke", "sandbox.finsprint.io"],
+		domains: ["www.redcross.or.ke", "dev.finsprint.io"],
 		remotePatterns: [
 			{
 				protocol: "https",
